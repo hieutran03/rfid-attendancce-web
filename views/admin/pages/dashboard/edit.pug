@@ -1,0 +1,78 @@
+extends ../../layouts/default.pug
+
+block main
+
+
+  h1(class="mb-4") Sửa nhân viên
+
+  form(
+    action=`/admin/dashboard/edit/${employee.id}?_method=PATCH`
+    id="form-create-product"
+    method="POST"
+  )
+    div(class="form-group")
+      label(for="uid") UID
+      input(
+        type="text"
+        class="form-control"
+        id="uid"
+        name="uid"
+        value = employee.uid
+        required
+      )
+    div(class="form-group")
+      label(for="name") Tên nhân viên
+      input(
+        type = "text"
+        class="form-control"
+        id="name"
+        name="name"
+        value = employee.name
+        rows="5"
+      )
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="genderMale"
+        name="gender"
+        value="true"
+        checked=(employee.gender == true)?true:false
+      )
+      label(for="statusActive" class="form-check-label") Nam
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="genderFemale"
+        name="gender"
+        value="false"
+        checked=(employee.gender == false)?true:false
+      )
+      label(for="statusInActive" class="form-check-label") Nữ
+    div(class="form-group")
+      label(for="date") Ngày vào làm
+      input(
+        type="date"
+        class="form-control"
+        id="date"
+        name="date"
+        value = employee.date.toISOString().split("T")[0]
+      )
+    div(class="form-group")
+      label(for="department") Phòng ban
+      input(
+        type="text"
+        class="form-control"
+        id="department"
+        name="department"
+        value = employee.department
+      )
+      
+    
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Cập nhật
+  script(src="/admin/js/employee.js")
