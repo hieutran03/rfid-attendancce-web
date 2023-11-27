@@ -1,23 +1,29 @@
 const mongoose = require("mongoose");
 const generate = require("../helpers/generate");
-const accountSchema = mongoose.Model({
-    fullname:{
+
+const accountSchema = mongoose.Schema({
+    fullName:{
         type: String,
-        default: Adminstrator
     },
     email:{
         type: String,
-        require: true
     },
     password:{
         type: String,
-        require: true
     },
     token: {
         type: String,
         default: generate.generateRandomString(20),
-        require: true
     },
+    phone: {
+        type: String
+    },
+    deleted:{
+        type: Boolean,
+        default: false
+    }
 });
-const Account = mongoose.model("Account",accountSchema);
+
+const Account = mongoose.model("Account", accountSchema, "accounts");
+
 module.exports = Account;

@@ -1,6 +1,23 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async(req, res)=>{
-    res.send("OK");
-})
+const controller = require("../../controllers/admin/account.controller");
+const validate = require("../../validates/admin/account.validate");
+
+router.get("/", controller.index);
+
+router.get("/create", controller.create);
+
+router.post("/create",
+  validate.createPost,
+  controller.createPost
+);
+router.get("/edit/:id", controller.edit);
+
+router.patch(
+  "/edit/:id",
+  validate.editPatch,
+  controller.editPatch
+);
+
+module.exports = router;
