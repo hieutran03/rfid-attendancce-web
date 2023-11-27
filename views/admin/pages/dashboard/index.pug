@@ -1,28 +1,18 @@
 extends ../../layouts/default.pug
-include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
-include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
 
 block main
 
   h1 Danh sách nhân viên
 
-  //- .card.mb-3
-  //-     .card-header Bộ lọc và Tìm kiếm
-  //-     .card-body
-  //-     .row
-  //-       .col-6
-  //-         +filter-status(filterStatus)
-  //-       .col-6
-  //-         +search(keyword)
   .card.mb-3
     .card-header Danh sách
       .card-body
         .row
-          .col-8
-            +form-change-multi(`/admin/products/change-multi?_method=PATCH`)
+          //- .col-8
+          //-   +form-change-multi(`/admin/products/change-multi?_method=PATCH`)
           .col-4
             a(
               href=`/admin/dashboard/create`
@@ -55,7 +45,7 @@ block main
                     name="id"
                     value=""
                   )
-                td #{item.uid}
+                td #{item.id}
                 td #{item.name}
                 if(item.gender == true)
                   td Nam
@@ -63,23 +53,6 @@ block main
                   td Nữ
                 td #{item.date.toISOString().split("T")[0]}
                 td #{item.department}
-                //- td
-                //-   if(item.status == "active")
-                //-     a(
-                //-       href="javascript:;"
-                //-       data-status=item.status
-                //-       data-id=item.id
-                //-       button-change-status
-                //-       class="badge badge-success"
-                //-     ) Hoạt động
-                //-   else
-                //-     a(
-                //-       href="javascript:;"
-                //-       data-status=item.status
-                //-       data-id=item.id
-                //-       button-change-status
-                //-       class="badge badge-danger"
-                //-     ) Dừng hoạt động
                 td
                   a(
                     href=`/admin/dashboard/edit/${item.id}`
@@ -105,4 +78,4 @@ block main
     id="form-delete-item"
     data-path = `/admin/dashboard/delete`
   )
-  script(src="/admin/js/employee.js")
+  script(src="/admin/js/action.js")

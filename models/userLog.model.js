@@ -1,20 +1,30 @@
 const mongoose = require("mongoose");
 const logSchema = new mongoose.Schema({
     uid : {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'Employeer',
+        required: true
+    },
+    deviceID:{
+        type: String,
+        ref: "Device",
         required: true
     },
     timeIn : {
         type: Date,
         default : Date.now()
-    }
-});
+    }},
+   
+);
 
-logSchema.pre(/^find/, async function(next) {
-    await this.populate('uid')
-    next()
-})
+// logSchema.pre("find", async function (next) {
+//     this.populate("uid");
+//     next();
+// });
+// logSchema.pre("find", async function(next){
+//     this.populate("deviceID");
+//     next();  
+// })
 
-const Log = mongoose.model('Log', logSchema)
-module.exports = Log
+const UserLog = mongoose.model('userlog', logSchema)
+module.exports = UserLog

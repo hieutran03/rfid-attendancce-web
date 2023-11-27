@@ -14,16 +14,15 @@ module.exports.dashboard = async(req, res)=>{
         countEmployee
     );
     const employees = await Employee
-        .find()
-        // .sort({ name: "desc" })
-        // .limit(objectPagination.limitItems)
-        // .skip(objectPagination.skip);
-    // res.render("admin/pages/dashboard/index.pug", {
-    //     pageTitle: "Trang tổng quan",
-    //     employees: employees,
-    //     pagination: objectPagination
-    // });
-    res.send("Ok")
+        .find(find)
+        .sort({ name: "desc" })
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);
+    res.render("admin/pages/dashboard/index.pug", {
+        pageTitle: "Trang tổng quan",
+        employees: employees,
+        pagination: objectPagination
+    });
 }
 
 module.exports.create = async(req, res) =>{
@@ -40,9 +39,13 @@ module.exports.createPost = async(req, res) =>{
     else{
         req.body.gender = false;
     }
-    console.log(req.body);
     const employee = new Employee(req.body);
-    await employee.save();
+    try{
+        await employee.save();    
+    }catch(e){
+        console.log(e);
+    }
+    
     res.redirect('/admin/dashboard');
 }
 

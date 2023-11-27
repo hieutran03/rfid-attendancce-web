@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+
+block main
+
+
+  h1(class="mb-4") Thêm mới thiết bị
+
+  form(
+    action=`/admin/device/edit/${device.id}?_method=PATCH`
+    id="form-create-device"
+    method="POST"
+  )
+    div(class="form-group")
+      label(for="uid") Device ID
+      input(
+        type="text"
+        class="form-control"
+        id="_id"
+        name="_id"
+        value = device.id
+        required
+      )
+    div(class="form-group")
+      label(for="name") Tên thiết bị
+      input(
+        type = "text"
+        class="form-control"
+        id="deviceName"
+        name="deviceName"
+        value = device.deviceName
+        rows="5"
+      )
+    
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Tạo mới
+
+  script(src="/admin/js/action.js")

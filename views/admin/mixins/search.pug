@@ -1,25 +1,26 @@
 mixin search(keyword)
   form(id="form-search")
     .row
+
       .col-sm
         div(class="form-group")
-          label(for="uid") Nhập UID: 
+          label(for="name") Nhập tên nhân viên:
           input(
             type="text"
-            placeholder="UID"
-            id = "uid"
-            name="uid"
-            value = filter.uid
-          )
-      .col-sm
-        div(class="form-group")
-          label(for="name") Nhập Tên NV:
-          input(
-            type="text"
-            placeholder="Tên NV"
+            placeholder="Tên nhân viên"
             name="name"
             id = "name"
             value = filter.name
+          )
+      .col-sm
+        div(class="form-group")
+          label(for="name") Nhập tên thiết bị:
+          input(
+            type="text"
+            placeholder="Tên thiết bị"
+            name="deviceName"
+            id = "deviceName"
+            value = filter.deviceName
           )
       .col-sm
         div(class="form-group")

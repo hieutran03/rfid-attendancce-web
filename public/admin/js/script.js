@@ -23,14 +23,9 @@ if(formSearch){
     formSearch.addEventListener("submit", (e)=>{
         e.preventDefault();
    
-        const uid = e.target.elements.uid.value;
         const name = e.target.elements.name.value;
+        const deviceName = e.target.elements.deviceName.value;
         const timeIn = e.target.elements.timeIn.value;
-        if(uid){
-            url.searchParams.set("uid", uid);
-        }else{
-            url.searchParams.delete("uid");
-        }
         
         if(name){
             url.searchParams.set("name", name)
@@ -38,6 +33,12 @@ if(formSearch){
             url.searchParams.delete("name");
         }
         
+        if(deviceName){
+            url.searchParams.set("deviceName", deviceName)
+        }else{
+            url.searchParams.delete("deviceName");
+        }
+
         if(timeIn){
             url.searchParams.set("timeIn", timeIn)
         }else{
