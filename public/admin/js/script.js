@@ -148,3 +148,10 @@ if(formChangeMulti){
 //     showAlert.classList.add("alert-hidden");
 //   });
 // }
+
+const btnHome = document.querySelector("#redirectHome");
+if(btnHome){
+    btnHome.addEventListener("click", (e)=>{
+        window.location.href = "/admin/dashboard";
+    })
+}

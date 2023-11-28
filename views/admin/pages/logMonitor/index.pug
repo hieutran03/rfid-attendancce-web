@@ -28,7 +28,7 @@ block main
           if(userLogs)
             each item, index in userLogs
               tr 
-                td #{item.id}
+                td #{item.id}                
                 td #{item.uid.name}
                 td #{item.deviceID.deviceName}
                 td #{item.timeIn.toString().split("GMT")[0]}

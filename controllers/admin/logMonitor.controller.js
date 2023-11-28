@@ -37,22 +37,30 @@ module.exports.index = async(req, res)=>{
     }catch(e){
         console.log(e)
     }
-    console.log(findFilter)
-    const userLogs = await UserLog
-        .find(findFilter).populate([{
-            path: "uid",
-        },{
-            path: "deviceID"
-        }])
-        .sort({timeIn: "desc"});
+
+    try{
+        const userLogs = await UserLog
+            .find(findFilter).populate([{
+                path: "uid",
+            },{
+                path: "deviceID"
+            }])
+            .sort({timeIn: "desc"});
+        console.log(userLogs);
+        res.render("admin/pages/logMonitor", {
+            pageTitle: "Trang giám sát",
+            filter: objectSearch,
+            userLogs: userLogs
+        });
+    }catch(e){
+        console.log(e)
+    }
     
-    res.render("admin/pages/logMonitor", {
-        pageTitle: "Trang giám sát",
-        filter: objectSearch,
-        userLogs: userLogs
-    });
+    
+    
 }
 module.exports.create = async(req,res)=>{
+    console.log("hello world");
     const log ={
     }
     
@@ -60,11 +68,14 @@ module.exports.create = async(req,res)=>{
     log.deviceID = req.body.deviceID;
     log.uid = req.body.tagID.toString();
     timeIn = (`${req.body.timestamp}`);
-    console.log(timeIn)
     log.timeIn = new Date(timeIn);
-    console.log(log.timeIn);
     const newLog = new UserLog(log);
     console.log(newLog);
-    await newLog.save();
+    try{
+        await newLog.save();
+    }
+    catch(e){
+        console.log(e);
+    }
     res.send(newLog);
 }
