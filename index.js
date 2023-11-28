@@ -1,4 +1,7 @@
 const express = require("express");
+const https = require("https"); 
+const fs = require("fs");
+
 const app = express();
 const port = 3000;
 const adminRoute = require("./routes/admin/index.route");
@@ -8,6 +11,12 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const flash = require("express-flash");
+
+
+const options = { 
+    key: fs.readFileSync("server.key"), 
+    cert: fs.readFileSync("server.cert"), 
+};
 
 app.use(express.static("./public"));
 app.use(methodOverride('_method'));
@@ -25,6 +34,6 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 adminRoute(app);
-app.listen(port, () => {
+https.createServer(options, app).listen(port, () => {
     console.log(`App listening on port ${port}`);
 });

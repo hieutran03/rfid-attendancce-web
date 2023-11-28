@@ -9,6 +9,14 @@ module.exports = (app) => {
   app.use("/admin/dashboard",
     authMiddleware.requireAuth,
     dashboardRoutes);
+  // app.use("/",
+  //   authMiddleware.requireAuth,
+  //   dashboardRoutes
+  // );
+  // app.use("/admin",
+  //   authMiddleware.requireAuth,
+  //   dashboardRoutes
+  // );
   app.use("/admin/logMonitor",
     authMiddleware.requireAuth,  
     logMonitorRoutes);

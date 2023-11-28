@@ -44,9 +44,7 @@ module.exports.index = async(req, res)=>{
         },{
             path: "deviceID"
         }])
-        .then((data)=>{
-            return data;
-        });
+        .sort({timeIn: "desc"});
     
     res.render("admin/pages/logMonitor", {
         pageTitle: "Trang giám sát",
@@ -60,10 +58,13 @@ module.exports.create = async(req,res)=>{
     
     // console.log(req.body);
     log.deviceID = req.body.deviceID;
-    log.uid = req.body.tagID;
-    log.timeIn = new Date(req.body.timestamp);
+    log.uid = req.body.tagID.toString();
+    timeIn = (`${req.body.timestamp}`);
+    console.log(timeIn)
+    log.timeIn = new Date(timeIn);
+    console.log(log.timeIn);
     const newLog = new UserLog(log);
-    // console.log(newLog);
+    console.log(newLog);
     await newLog.save();
     res.send(newLog);
 }
