@@ -46,7 +46,6 @@ module.exports.index = async(req, res)=>{
                 path: "deviceID"
             }])
             .sort({timeIn: "desc"});
-        console.log(userLogs);
         res.render("admin/pages/logMonitor", {
             pageTitle: "Trang giám sát",
             filter: objectSearch,
@@ -60,7 +59,6 @@ module.exports.index = async(req, res)=>{
     
 }
 module.exports.create = async(req,res)=>{
-    console.log("hello world");
     const log ={
     }
     
@@ -69,7 +67,15 @@ module.exports.create = async(req,res)=>{
     log.uid = req.body.tagID.toString();
     timeIn = (`${req.body.timestamp}`);
     log.timeIn = new Date(timeIn);
+    const employee = await Employee.find({
+        uid: log.uid
+    })
+    if(employee.length == 0){
+        res.send("Invallid Card");
+        return;
+    }
     const newLog = new UserLog(log);
+
     console.log(newLog);
     try{
         await newLog.save();

@@ -1,4 +1,5 @@
 const dashboardRoutes = require("./dashboard.route");
+const employeeRoutes = require("./employee.route");
 const logMonitorRoutes = require("./logMonitor.route");
 const deviceRoutes = require("./device.route");
 const accountRoutes = require("./account.route");
@@ -9,14 +10,9 @@ module.exports = (app) => {
   app.use("/admin/dashboard",
     authMiddleware.requireAuth,
     dashboardRoutes);
-  // app.use("/",
-  //   authMiddleware.requireAuth,
-  //   dashboardRoutes
-  // );
-  // app.use("/admin",
-  //   authMiddleware.requireAuth,
-  //   dashboardRoutes
-  // );
+  app.use("/admin/employee",
+    authMiddleware.requireAuth,
+    employeeRoutes);
   app.use("/admin/logMonitor",
     authMiddleware.requireAuth,  
     logMonitorRoutes);

@@ -1,77 +1,60 @@
 const Employee = require("../../models/employee.model");
-const paginationHelper = require("../../helpers/pagination");
-module.exports.dashboard = async(req, res)=>{
-    const find = {
-        deleted:false
+const Device = require("../../models/device.model");
+const Log = require("../../models/userLog.model")
+const dates = [];
+const counts = [];
+const backgroundColor = new Array(7).fill("rgb(54, 162, 235)");
+
+module.exports.index = async(req, res)=>{
+    const numOfEmployees = await Employee.find().countDocuments();
+    const numOfDevices = await Device.find().countDocuments();
+    const stats = {
+
     }
-    const countEmployee= await Employee.countDocuments(find);
-    let objectPagination = paginationHelper(
-        {
-        currentPage: 1,
-        limitItems: 5
-        },
-        req.query,
-        countEmployee
-    );
-    const employees = await Employee
-        .find(find)
-        .sort({ name: "desc" })
-        .limit(objectPagination.limitItems)
-        .skip(objectPagination.skip);
+    let targetDay = new Date(Date.now()).setHours(0,0,0,0);
+
+    if(req.query.dateChose)
+    {
+        stats.dateChose = req.query.dateChose;
+        targetDay =  new Date(req.query.dateChose).setHours(0,0,0,0);
+    }
+    const dayOfWeek = new Date(targetDay).getDay();
+    const firstDateOfWeek = new Date(targetDay-dayOfWeek*1000*60*60*24);
+    
+    dates.length = 0;
+    counts.length = 0;
+    for(let i = 0; i < 7; i++){
+        const itemDate = new Date(firstDateOfWeek.getTime()+i*1000*60*60*24);
+        const startOfDay = new Date(itemDate);
+        const endOfDay = new Date(itemDate);
+        endOfDay.setHours(23, 59, 59, 999);
+        const itemCount = await Log.find({
+            timeIn:{
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        }).countDocuments();
+        dates.push(itemDate.toDateString());
+        counts.push(itemCount);
+    }
+
+    backgroundColor.fill("rgb(54, 162, 235)");
+    backgroundColor[dayOfWeek] = "rgb(255, 205, 86)";
+    
+    const Employees = await Employee.find();
     res.render("admin/pages/dashboard/index.pug", {
         pageTitle: "Trang tổng quan",
-        employees: employees,
-        pagination: objectPagination
+        numOfEmployees: numOfEmployees,
+        numOfDevices: numOfDevices,
+        dateChose: stats.dateChose
     });
 }
 
-module.exports.create = async(req, res) =>{
-    res.render("admin/pages/dashboard/create.pug",{
-        pageTitle:"Tạo nhân viên"        
+module.exports.api = async(req,res)=>{
+    res.status(200).json({
+        status: "success",
+        dates: dates,
+        counts: counts,
+        backgroundColor: backgroundColor
     });
-    
-
-}
-module.exports.createPost = async(req, res) =>{
-    if(req.body.gender === "true"){
-        req.body.gender = true;
-    }
-    else{
-        req.body.gender = false;
-    }
-    const employee = new Employee(req.body);
-    try{
-        await employee.save();    
-    }catch(e){
-        console.log(e);
-    }
-    
-    res.redirect('/admin/dashboard');
-}
-
-module.exports.deleteEmployee = async(req, res)=>{
-    const id = req.params.id;
-    if(id != null)
-        await Employee.updateOne({_id:id},{
-            deleted:true
-        });
-    res.redirect("back");
-}
-
-module.exports.editEmployee = async(req, res)=>{
-    const id = req.params.id;
-    const employee = await Employee.findOne({_id:id});
-    res.render("admin/pages/dashboard/edit.pug",{
-        pageTitle:"Tạo nhân viên",
-        employee:employee
-    })
-}
-
-module.exports.editEmployeePatch = async(req, res)=>{
-    const id = req.params.id;
-    if(id != null)
-        await Employee.updateOne({_id:id},{
-            ...req.body
-        });
-    res.redirect("/admin/dashboard");
 }

@@ -17,7 +17,7 @@ const logSchema = new mongoose.Schema({
    
 );
 
-// logSchema.pre("find", async function (next) {
+// logSchema.pre(/^find/, function (next) {
 //     this.populate("uid");
 //     next();
 // });

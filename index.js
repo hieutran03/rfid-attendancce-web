@@ -34,6 +34,9 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 adminRoute(app);
-https.createServer(options, app).listen(port, () => {
+// https.createServer(options, app).listen(port, () => {
+//     console.log(`App listening on port ${port}`);
+// });
+app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
