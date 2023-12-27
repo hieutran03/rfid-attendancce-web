@@ -71,8 +71,15 @@ module.exports.create = async(req,res)=>{
     log.timeIn = new Date(timeIn);
     
     const employee = await Employee.find({
-        uid: log.uid
+        _id: log.uid
     })
+    const device = await Device.find({
+        _id: log.deviceID
+    })
+    if(device.length == 0){
+        res.send("Invallid Card");
+        return;
+    }
     if(employee.length == 0){
         res.send("Invallid Card");
         const newWaiting = new WaitingList(log);

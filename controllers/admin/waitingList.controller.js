@@ -24,11 +24,10 @@ module.exports.index = async(req,res)=>{
         
     
         
-    const result = waitingList.filter((item)=> item.deviceID !== null);
 
     res.render("admin/pages/waitingList/index.pug",{
         pageTitle: "Danh sách chờ",
-        waitingList: result,
+        waitingList: waitingList,
         pagination: objectPagination
     });
 }
