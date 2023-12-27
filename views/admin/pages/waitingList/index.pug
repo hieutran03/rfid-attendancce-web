@@ -5,7 +5,7 @@ include ../../mixins/alert.pug
 
 block main
 
-  h1 Danh sách nhân viên
+  h1 Danh sách chờ
 
   .card.mb-3
     .card-header Danh sách
@@ -21,14 +21,11 @@ block main
                 input(type="checkbox" name="checkall")
 
               th Card UID
-              th Họ tên
-              th Giới tính
-              th Ngày vào làm
-              th Phòng ban
+              th Thiết bị
+              th Thời gian quẹt thẻ
               th Hành động
-
           tbody
-          each item, index in employees
+          each item, index in waitingList
               tr 
                 td
                   input(
@@ -36,19 +33,14 @@ block main
                     name="id"
                     value=""
                   )
-                td #{item.id}
-                td #{item.name}
-                if(item.gender == true)
-                  td Nam
-                else
-                  td Nữ
-                td #{item.date.toISOString().split("T")[0]}
-                td #{item.department}
+                td #{item.uid}
+                td #{item.deviceID.deviceName}
+                td #{item.timeIn}
                 td
                   a(
-                    href=`/admin/employee/edit/${item.id}`
+                    href=`/admin/waitingList/create/${item.id}`
                     class="btn btn-warning btn-sm"
-                  ) Sửa
+                  ) Thêm
                   button(
                     class="btn btn-danger btn-sm ml-1"
                     button-delete
@@ -61,6 +53,6 @@ block main
     action=""
     method="POST"
     id="form-delete-item"
-    data-path = `/admin/employee/delete`
+    data-path = `/admin/waitingList/delete`
   )
   script(src="/admin/js/action.js")

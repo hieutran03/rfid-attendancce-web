@@ -1,7 +1,9 @@
-h1 404 Not Found
-button(
-  id = "redirectHome"
-  onclick="history.back()"
-) Về trang chủ
+div(style = "margin: auto; width: 50%; border: 3px ; padding: 10px;")
+  h1(style = "text-align: center") 404 Not Found
+  a(
+    href = "/admin/dashboard"
+    id = "redirectHome"
+    style = "display: flex; align-items: center; justify-content:center; text-align: center"
+  ) Về trang chủ
 
 script(src = "admin/js/script.js")

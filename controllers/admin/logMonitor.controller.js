@@ -3,6 +3,8 @@ const searchHelper = require("../../helpers/search");
 const UserLog = require("../../models/userLog.model")
 const Employee = require("../../models/employee.model");
 const Device = require("../../models/device.model");
+const WaitingList = require("../../models/waitingList.model");
+
 module.exports.index = async(req, res)=>{
     const findFilter ={
 
@@ -67,15 +69,27 @@ module.exports.create = async(req,res)=>{
     log.uid = req.body.tagID.toString();
     timeIn = (`${req.body.timestamp}`);
     log.timeIn = new Date(timeIn);
+    
     const employee = await Employee.find({
         uid: log.uid
     })
     if(employee.length == 0){
         res.send("Invallid Card");
+        const newWaiting = new WaitingList(log);
+        try{
+            const test = await WaitingList.find({
+                uid: newWaiting.uid
+            })
+            if(test.length === 0)
+                await newWaiting.save();
+        }catch{
+
+        }
+        
         return;
     }
+    
     const newLog = new UserLog(log);
-
     console.log(newLog);
     try{
         await newLog.save();

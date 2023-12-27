@@ -3,7 +3,8 @@ const employeeRoutes = require("./employee.route");
 const logMonitorRoutes = require("./logMonitor.route");
 const deviceRoutes = require("./device.route");
 const accountRoutes = require("./account.route");
-const authRoutes = require("./auth.route")
+const authRoutes = require("./auth.route");
+const waitingListRoutes = require("./waitingList.route");
 const authMiddleware = require("../../middlewares/admin/auth.middleware");
 
 module.exports = (app) => {
@@ -24,6 +25,9 @@ module.exports = (app) => {
     accountRoutes);
   app.use("/admin/auth",
     authRoutes);
+  app.use("/admin/waitingList",
+    waitingListRoutes
+  );
   app.get("*", (req, res) => {
     res.render("admin/pages/errors/404.pug", {
       pageTitle: "404 Not Found",

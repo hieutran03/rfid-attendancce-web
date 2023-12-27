@@ -1,6 +1,7 @@
 const Employee = require("../../models/employee.model");
 const Device = require("../../models/device.model");
-const Log = require("../../models/userLog.model")
+const Log = require("../../models/userLog.model");
+const WaitingList = require("../../models/waitingList.model");
 const dates = [];
 const counts = [];
 const backgroundColor = new Array(7).fill("rgb(54, 162, 235)");
@@ -8,6 +9,7 @@ const backgroundColor = new Array(7).fill("rgb(54, 162, 235)");
 module.exports.index = async(req, res)=>{
     const numOfEmployees = await Employee.find().countDocuments();
     const numOfDevices = await Device.find().countDocuments();
+    const numOfWaitings = await WaitingList.find().countDocuments();
     const stats = {
 
     }
@@ -46,6 +48,7 @@ module.exports.index = async(req, res)=>{
         pageTitle: "Trang tổng quan",
         numOfEmployees: numOfEmployees,
         numOfDevices: numOfDevices,
+        numOfWaitings: numOfWaitings,
         dateChose: stats.dateChose
     });
 }
