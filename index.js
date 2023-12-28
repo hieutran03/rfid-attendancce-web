@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const https = require("https"); 
 const fs = require("fs");
@@ -18,7 +20,7 @@ const options = {
     cert: fs.readFileSync("server.cert"), 
 };
 
-app.use(express.static("./public"));
+app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -30,7 +32,7 @@ app.use(flash());
 
 database.connect()
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 adminRoute(app);

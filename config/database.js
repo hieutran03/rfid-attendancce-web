@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 module.exports.connect = async()=>{
     try {
-        await mongoose.connect('mongodb+srv://hieumdg:tgFsSuXERC7zjvxy@mymongodb.lwsbljs.mongodb.net/employee-management');
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("Database connection success!");
     } catch (error) {
         console.log("Database connection error: " + error);
