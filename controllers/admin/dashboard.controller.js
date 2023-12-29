@@ -54,7 +54,7 @@ module.exports.index = async(req, res)=>{
 }
 
 module.exports.api = async(req,res)=>{
-    res.status(200).json({
+    await res.status(200).json({
         status: "success",
         dates: dates,
         counts: counts,

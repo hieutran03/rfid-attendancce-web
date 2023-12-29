@@ -1,6 +1,7 @@
 
 const ctx = document.getElementById('myChart');
 let url = new URL(window.location.href);
+
 fetch('/admin/dashboard/api')
     .then(response => response.json())
     .then(data => {
